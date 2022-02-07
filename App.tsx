@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
-import Ball from "./src/Ball";
+import { DATA } from "./src/Data";
 import Deck from "./src/Deck";
 
 export default function App() {
+  const renderCard = (item: any) => {
+    return <Text>{item.text}</Text>;
+  };
+
   return (
     <View style={styles.container}>
-      {/* <Ball /> */}
-      <Deck />
+      <Deck data={DATA} renderCard={renderCard} />
     </View>
   );
 }

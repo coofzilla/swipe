@@ -10,12 +10,18 @@ import {
   StyleSheet,
 } from "react-native";
 
-interface DeckProps {
-  onSwipeRight: () => {};
-  onSwipeLeft: () => {};
+interface Data {
+  id: number;
+  text: string;
+  uri: string;
 }
 
-const Deck = ({}: DeckProps) => {
+interface DeckProps {
+  data: Data[];
+  renderCard: (item: string) => JSX.Element;
+}
+
+const Deck = ({ data }: DeckProps) => {
   return (
     <View>
       <Text>Swipe Deck</Text>
