@@ -30,6 +30,7 @@ const Deck = ({ data, renderCard }: DeckProps) => {
     <SafeAreaView>
       <FlatList
         data={data}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           return (
             <Card>
