@@ -8,7 +8,11 @@ import {
   UIManager,
   Text,
   StyleSheet,
+  FlatList,
+  SafeAreaView,
 } from "react-native";
+
+import { Card, Button } from "react-native-elements";
 
 interface Data {
   id: number;
@@ -21,11 +25,25 @@ interface DeckProps {
   renderCard: (item: string) => JSX.Element;
 }
 
-const Deck = ({ data }: DeckProps) => {
+const Deck = ({ data, renderCard }: DeckProps) => {
   return (
-    <View>
-      <Text>Swipe Deck</Text>
-    </View>
+    <SafeAreaView>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => {
+          return (
+            <Card>
+              <Card.Title>{item.text}</Card.Title>
+              <Card.Image source={{ uri: item.uri }} />
+              <Text style={{ marginTop: 10, marginBottom: 10 }}>
+                Some information about card here
+              </Text>
+              <Button title="view" />
+            </Card>
+          );
+        }}
+      />
+    </SafeAreaView>
   );
 };
 
