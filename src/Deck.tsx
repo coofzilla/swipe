@@ -12,7 +12,7 @@ import {
   SafeAreaView,
 } from "react-native";
 
-import { Card, Button } from "react-native-elements";
+import { Card, Button, Icon } from "react-native-elements";
 
 interface Data {
   id: number;
@@ -39,7 +39,10 @@ const Deck = ({ data, renderCard }: DeckProps) => {
               <Text style={{ marginTop: 10, marginBottom: 10 }}>
                 Some information about card here
               </Text>
-              <Button title="view" />
+              <Button
+                title=" View"
+                icon={<Icon name="code" color="white" size={20} />}
+              />
             </Card>
           );
         }}
