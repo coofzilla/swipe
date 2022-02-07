@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { View, Animated, StyleSheet } from "react-native";
 
-//<{}> no props
-const Ball: React.FC<{}> = () => {
+interface BallProps {}
+
+const Ball = ({}: BallProps) => {
   const position = new Animated.ValueXY({ x: 0, y: 0 });
+
   useEffect(() => {
     Animated.spring(position, {
       toValue: { x: 200, y: 500 },
