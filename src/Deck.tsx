@@ -14,6 +14,8 @@ import {
 
 import { Card, Button, Icon } from "react-native-elements";
 
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
 interface Data {
   id: number;
   text: string;
@@ -39,6 +41,11 @@ const Deck = ({ data }: DeckProps) => {
     })
   ).current;
 
+  const rotate = position.x.interpolate({
+    inputRange: [-SCREEN_WIDTH * 1.75, 0, SCREEN_WIDTH * 1.75],
+    outputRange: ["-120deg", "0deg", "120deg"],
+  });
+
   return (
     <SafeAreaView>
       <FlatList
@@ -51,7 +58,7 @@ const Deck = ({ data }: DeckProps) => {
                 index === 0 && [
                   position.getLayout(),
                   { borderWidth: 3 },
-                  { transform: [{ rotate: "45deg" }] },
+                  { transform: [{ rotate: rotate }] },
                 ]
               }
               {...panResponder.panHandlers}
