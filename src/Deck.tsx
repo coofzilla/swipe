@@ -25,36 +25,49 @@ interface DeckProps {
 }
 
 const Deck = ({ data }: DeckProps) => {
+  const position = useRef(new Animated.ValueXY()).current;
+
   const panResponder = useRef(
     PanResponder.create({
       //called when click
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       //called whenver user drags finger across scren
       onPanResponderMove: (evt, gestureState) => {
-        console.log(gestureState);
+        position.setValue({ x: gestureState.dx, y: gestureState.dy });
       },
       onPanResponderRelease: (evt, gestureState) => {},
     })
-  );
+  ).current;
 
   return (
     <SafeAreaView>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           return (
-            <Card>
-              <Card.Title>{item.text}</Card.Title>
-              <Card.Image source={{ uri: item.uri }} />
-              <Text style={{ marginTop: 10, marginBottom: 10 }}>
-                Some information about card here
-              </Text>
-              <Button
-                title=" View"
-                icon={<Icon name="code" color="white" size={20} />}
-              />
-            </Card>
+            <Animated.View
+              style={
+                index === 0 && [
+                  position.getLayout(),
+                  { borderWidth: 3 },
+                  { transform: [{ rotate: "45deg" }] },
+                ]
+              }
+              {...panResponder.panHandlers}
+            >
+              <Card>
+                <Card.Title>{item.text}</Card.Title>
+                <Card.Image source={{ uri: item.uri }} />
+                <Text style={{ marginTop: 10, marginBottom: 10 }}>
+                  Some information about card here
+                </Text>
+                <Button
+                  title=" View"
+                  icon={<Icon name="code" color="white" size={20} />}
+                />
+              </Card>
+            </Animated.View>
           );
         }}
       />
