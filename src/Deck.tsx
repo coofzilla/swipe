@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   Animated,
@@ -22,10 +22,21 @@ interface Data {
 
 interface DeckProps {
   data: Data[];
-  renderCard: (item: string) => JSX.Element;
 }
 
-const Deck = ({ data, renderCard }: DeckProps) => {
+const Deck = ({ data }: DeckProps) => {
+  const panResponder = useRef(
+    PanResponder.create({
+      //called when click
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      //called whenver user drags finger across scren
+      onPanResponderMove: (evt, gestureState) => {
+        console.log(gestureState);
+      },
+      onPanResponderRelease: (evt, gestureState) => {},
+    })
+  );
+
   return (
     <SafeAreaView>
       <FlatList
