@@ -34,10 +34,23 @@ const Deck = ({ data }: DeckProps) => {
       //called when click
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       //called whenver user drags finger across scren
-      onPanResponderMove: (evt, gestureState) => {
-        position.setValue({ x: gestureState.dx, y: gestureState.dy });
+      onPanResponderMove: Animated.event(
+        [
+          //ignore native event
+          null,
+          {
+            dx: position.x,
+            dy: position.y,
+          },
+        ],
+        { useNativeDriver: false }
+      ),
+      onPanResponderRelease: (evt, gestureState) => {
+        Animated.spring(position, {
+          toValue: { x: 0, y: 0 },
+          useNativeDriver: false,
+        }).start();
       },
-      onPanResponderRelease: (evt, gestureState) => {},
     })
   ).current;
 
@@ -57,13 +70,12 @@ const Deck = ({ data }: DeckProps) => {
               style={
                 index === 0 && [
                   position.getLayout(),
-                  { borderWidth: 3 },
                   { transform: [{ rotate: rotate }] },
                 ]
               }
               {...panResponder.panHandlers}
             >
-              <Card>
+              <Card containerStyle={{ borderWidth: 3 }}>
                 <Card.Title>{item.text}</Card.Title>
                 <Card.Image source={{ uri: item.uri }} />
                 <Text style={{ marginTop: 10, marginBottom: 10 }}>
