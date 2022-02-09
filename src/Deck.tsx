@@ -30,6 +30,11 @@ interface DeckProps {
 
 type Direction = "left" | "right";
 
+enum Directions {
+  left = "left",
+  right = "right",
+}
+
 const Deck = ({ data }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
 
@@ -67,9 +72,9 @@ const Deck = ({ data }: DeckProps) => {
       ),
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dx > SWIPE_THRESHOLD) {
-          forceSwipe("right");
+          forceSwipe(Directions.right);
         } else if (gestureState.dx < -SWIPE_THRESHOLD) {
-          forceSwipe("left");
+          forceSwipe(Directions.left);
         } else {
           resetPosition();
         }
