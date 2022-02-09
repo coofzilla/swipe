@@ -15,6 +15,7 @@ import {
 import { Card, Button, Icon } from "react-native-elements";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 
 interface Data {
   id: number;
@@ -46,6 +47,11 @@ const Deck = ({ data }: DeckProps) => {
         { useNativeDriver: false }
       ),
       onPanResponderRelease: (evt, gestureState) => {
+        if (gestureState.dx > SWIPE_THRESHOLD) {
+          console.log("swipe right");
+        } else if (gestureState.dx < -SWIPE_THRESHOLD) {
+          console.log("swipe left");
+        }
         Animated.spring(position, {
           toValue: { x: 0, y: 0 },
           useNativeDriver: false,
@@ -55,7 +61,7 @@ const Deck = ({ data }: DeckProps) => {
   ).current;
 
   const rotate = position.x.interpolate({
-    inputRange: [-SCREEN_WIDTH * 1.75, 0, SCREEN_WIDTH * 1.75],
+    inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
     outputRange: ["-120deg", "0deg", "120deg"],
   });
 
