@@ -14,7 +14,7 @@ import {
 
 import { Card, Button, Icon } from "react-native-elements";
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH = 50 + Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
@@ -79,7 +79,7 @@ const Deck = ({ data }: DeckProps) => {
 
   const rotate = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
-    outputRange: ["-120deg", "0deg", "120deg"],
+    outputRange: ["-15deg", "0deg", "15deg"],
   });
 
   return (
