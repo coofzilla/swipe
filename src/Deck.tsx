@@ -28,8 +28,6 @@ interface DeckProps {
   data: Data[];
 }
 
-type Direction = "left" | "right";
-
 enum Directions {
   left = "left",
   right = "right",
@@ -38,7 +36,7 @@ enum Directions {
 const Deck = ({ data }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
 
-  const forceSwipe = (direction: Direction) => {
+  const forceSwipe = (direction: Directions) => {
     const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
     Animated.timing(position, {
       toValue: { x: x, y: 0 },
