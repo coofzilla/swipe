@@ -16,6 +16,7 @@ import { Card, Button, Icon } from "react-native-elements";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
+const SWIPE_OUT_DURATION = 250;
 
 interface Data {
   id: number;
@@ -29,6 +30,21 @@ interface DeckProps {
 
 const Deck = ({ data }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
+
+  const forceSwipeRight = () => {
+    Animated.timing(position, {
+      toValue: { x: SCREEN_WIDTH, y: 0 },
+      duration: SWIPE_OUT_DURATION,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const resetPosition = () => {
+    Animated.spring(position, {
+      toValue: { x: 0, y: 0 },
+      useNativeDriver: false,
+    }).start();
+  };
 
   const panResponder = useRef(
     PanResponder.create({
@@ -48,14 +64,12 @@ const Deck = ({ data }: DeckProps) => {
       ),
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dx > SWIPE_THRESHOLD) {
-          console.log("swipe right");
+          forceSwipeRight();
         } else if (gestureState.dx < -SWIPE_THRESHOLD) {
           console.log("swipe left");
+        } else {
+          resetPosition();
         }
-        Animated.spring(position, {
-          toValue: { x: 0, y: 0 },
-          useNativeDriver: false,
-        }).start();
       },
     })
   ).current;
