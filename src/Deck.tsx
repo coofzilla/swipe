@@ -28,12 +28,15 @@ interface DeckProps {
   data: Data[];
 }
 
+type Direction = "left" | "right";
+
 const Deck = ({ data }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
 
-  const forceSwipeRight = () => {
+  const forceSwipe = (direction: Direction) => {
+    const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
     Animated.timing(position, {
-      toValue: { x: SCREEN_WIDTH, y: 0 },
+      toValue: { x: x, y: 0 },
       duration: SWIPE_OUT_DURATION,
       useNativeDriver: false,
     }).start();
@@ -64,9 +67,9 @@ const Deck = ({ data }: DeckProps) => {
       ),
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dx > SWIPE_THRESHOLD) {
-          forceSwipeRight();
+          forceSwipe("right");
         } else if (gestureState.dx < -SWIPE_THRESHOLD) {
-          console.log("swipe left");
+          forceSwipe("left");
         } else {
           resetPosition();
         }
