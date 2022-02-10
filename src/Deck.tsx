@@ -42,7 +42,6 @@ const Deck = ({
 }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
   const [cardIndex, setCardIndex] = useState(0);
-  console.log("RENDERED");
 
   const forceSwipe = (direction: Directions) => {
     const x = direction === Directions.right ? SCREEN_WIDTH : -SCREEN_WIDTH;
@@ -50,16 +49,18 @@ const Deck = ({
       toValue: { x: x, y: 0 },
       duration: SWIPE_OUT_DURATION,
       useNativeDriver: false,
-    }).start(() => onSwipeComplete(direction));
+    }).start(() => {
+      onSwipeComplete(direction);
+      setCardIndex(cardIndex + 1);
+      console.log("SWIPED");
+      //   cardIndex.current += 1;
+    });
   };
 
   const onSwipeComplete = (direction: Directions) => {
     const item = data[cardIndex];
     direction === Directions.right ? onSwipeRight(item) : onSwipeLeft(item);
-    setCardIndex(cardIndex + 1);
     position.setValue({ x: 0, y: 0 });
-
-    console.log("index is", cardIndex);
   };
 
   const resetPosition = () => {
@@ -106,8 +107,11 @@ const Deck = ({
     <SafeAreaView>
       <FlatList
         data={data}
+        extraData={cardIndex}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => {
+          if (index < cardIndex) return null;
+
           return (
             <Animated.View
               style={
