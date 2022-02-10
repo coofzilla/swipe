@@ -5,7 +5,7 @@ import Deck from "./src/Deck";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Deck data={DATA} />
+      <Deck data={DATA} onSwipeLeft={() => {}} onSwipeRight={() => {}} />
     </View>
   );
 }

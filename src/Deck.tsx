@@ -51,9 +51,6 @@ const Deck = ({
       useNativeDriver: false,
     }).start(() => {
       onSwipeComplete(direction);
-      setCardIndex(cardIndex + 1);
-      console.log("SWIPED");
-      //   cardIndex.current += 1;
     });
   };
 
@@ -61,6 +58,7 @@ const Deck = ({
     const item = data[cardIndex];
     direction === Directions.right ? onSwipeRight(item) : onSwipeLeft(item);
     position.setValue({ x: 0, y: 0 });
+    setCardIndex((prev) => prev + 1);
   };
 
   const resetPosition = () => {
@@ -111,11 +109,11 @@ const Deck = ({
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => {
           if (index < cardIndex) return null;
-
+          console.log("INDEX", index, cardIndex);
           return (
             <Animated.View
               style={
-                index === 0 && [
+                index === cardIndex && [
                   position.getLayout(),
                   { transform: [{ rotate: rotate }] },
                 ]
