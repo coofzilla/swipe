@@ -6,14 +6,12 @@ import {
   Dimensions,
   LayoutAnimation,
   UIManager,
-  Text,
   StyleSheet,
   FlatList,
   SafeAreaView,
 } from "react-native";
 
 import CardComponent from "./components/CardComponent";
-import { Card, Button, Icon } from "react-native-elements";
 
 const SCREEN_WIDTH = 50 + Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
@@ -121,11 +119,11 @@ const Deck = ({
               }
               {...panResponder.panHandlers}
             >
-              <CardComponent item={item} />
+              <CardComponent item={item} cardText="Swippable" />
             </Animated.View>
           ) : (
             <View>
-              <CardComponent item={item} />
+              <CardComponent item={item} cardText="Next" />
             </View>
           );
         }}

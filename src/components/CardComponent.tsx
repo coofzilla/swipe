@@ -4,16 +4,18 @@ import { Data } from "../Deck";
 
 interface CardComponentProps {
   item: Data;
+  cardText: string;
 }
 
-const CardComponent = ({ item: { text, uri } }: CardComponentProps) => {
+const CardComponent = ({
+  item: { text, uri },
+  cardText,
+}: CardComponentProps) => {
   return (
     <Card containerStyle={{ borderWidth: 3 }}>
       <Card.Title>{text}</Card.Title>
-      <Card.Image source={{  uri }} />
-      <Text style={{ marginTop: 10, marginBottom: 10 }}>
-        Some information about card here
-      </Text>
+      <Card.Image source={{ uri }} />
+      <Text style={{ marginTop: 10, marginBottom: 10 }}>{cardText}</Text>
       <Button
         title=" View"
         icon={<Icon name="code" color="white" size={20} />}
