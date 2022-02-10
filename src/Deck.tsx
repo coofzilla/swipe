@@ -41,7 +41,8 @@ const Deck = ({
   onSwipeRight = () => {},
 }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
-  const [index, setIndex] = useState(0);
+  const [cardIndex, setCardIndex] = useState(0);
+  console.log("RENDERED");
 
   const forceSwipe = (direction: Directions) => {
     const x = direction === Directions.right ? SCREEN_WIDTH : -SCREEN_WIDTH;
@@ -53,8 +54,12 @@ const Deck = ({
   };
 
   const onSwipeComplete = (direction: Directions) => {
-    const item = data[index];
+    const item = data[cardIndex];
     direction === Directions.right ? onSwipeRight(item) : onSwipeLeft(item);
+    setCardIndex(cardIndex + 1);
+    position.setValue({ x: 0, y: 0 });
+
+    console.log("index is", cardIndex);
   };
 
   const resetPosition = () => {
