@@ -12,13 +12,14 @@ import {
   SafeAreaView,
 } from "react-native";
 
+import CardComponent from "./components/CardComponent";
 import { Card, Button, Icon } from "react-native-elements";
 
 const SCREEN_WIDTH = 50 + Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
-interface Data {
+export interface Data {
   id: number;
   text: string;
   uri: string;
@@ -109,8 +110,8 @@ const Deck = ({
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => {
           if (index < cardIndex) return null;
-          console.log("INDEX", index, cardIndex);
-          return (
+
+          return index === cardIndex ? (
             <Animated.View
               style={
                 index === cardIndex && [
@@ -120,18 +121,12 @@ const Deck = ({
               }
               {...panResponder.panHandlers}
             >
-              <Card containerStyle={{ borderWidth: 3 }}>
-                <Card.Title>{item.text}</Card.Title>
-                <Card.Image source={{ uri: item.uri }} />
-                <Text style={{ marginTop: 10, marginBottom: 10 }}>
-                  Some information about card here
-                </Text>
-                <Button
-                  title=" View"
-                  icon={<Icon name="code" color="white" size={20} />}
-                />
-              </Card>
+              <CardComponent item={item} />
             </Animated.View>
+          ) : (
+            <View>
+              <CardComponent item={item} />
+            </View>
           );
         }}
       />
