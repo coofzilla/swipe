@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Animated,
@@ -26,6 +26,8 @@ interface Data {
 
 interface DeckProps {
   data: Data[];
+  onSwipeLeft: ({}) => void;
+  onSwipeRight: ({}) => void;
 }
 
 enum Directions {
@@ -33,16 +35,26 @@ enum Directions {
   right = "right",
 }
 
-const Deck = ({ data }: DeckProps) => {
+const Deck = ({
+  data,
+  onSwipeLeft = () => {},
+  onSwipeRight = () => {},
+}: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
+  const [index, setIndex] = useState(0);
 
   const forceSwipe = (direction: Directions) => {
-    const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
+    const x = direction === Directions.right ? SCREEN_WIDTH : -SCREEN_WIDTH;
     Animated.timing(position, {
       toValue: { x: x, y: 0 },
       duration: SWIPE_OUT_DURATION,
       useNativeDriver: false,
-    }).start();
+    }).start(() => onSwipeComplete(direction));
+  };
+
+  const onSwipeComplete = (direction: Directions) => {
+    const item = data[index];
+    direction === Directions.right ? onSwipeRight(item) : onSwipeLeft(item);
   };
 
   const resetPosition = () => {
