@@ -122,7 +122,10 @@ const Deck = ({
           );
         }
         return (
-          <Animated.View key={item.id} style={styles.cardStyle}>
+          <Animated.View
+            key={item.id}
+            style={[styles.cardStyle, { top: 5 * (i - cardIndex) }]}
+          >
             <CardComponent item={item} cardText="Next" />
           </Animated.View>
         );
