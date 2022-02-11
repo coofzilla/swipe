@@ -14,9 +14,9 @@ import {
 
 import CardComponent from "./components/CardComponent";
 import renderNoMoreCards from "../utils/renderNoMoreCards";
+import { ScreenHeight, ScreenWidth } from "react-native-elements/dist/helpers";
 
-const SCREEN_WIDTH = 50 + Dimensions.get("window").width;
-const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
+const SWIPE_THRESHOLD = 0.25 * ScreenWidth;
 const SWIPE_OUT_DURATION = 250;
 
 export interface Data {
@@ -45,7 +45,7 @@ const Deck = ({
   const [cardIndex, setCardIndex] = useState(0);
 
   const forceSwipe = (direction: Directions) => {
-    const x = direction === Directions.right ? SCREEN_WIDTH : -SCREEN_WIDTH;
+    const x = direction === Directions.right ? ScreenWidth : -ScreenWidth;
     Animated.timing(position, {
       toValue: { x: x, y: 0 },
       duration: SWIPE_OUT_DURATION,
@@ -98,43 +98,51 @@ const Deck = ({
   ).current;
 
   const rotate = position.x.interpolate({
-    inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
+    inputRange: [-ScreenWidth * 1.5, 0, ScreenWidth * 1.5],
     outputRange: ["-15deg", "0deg", "15deg"],
   });
+
+  const renderCards = () => {
+    return data
+      .map((item, i) => {
+        if (i < cardIndex) return null;
+
+        if (i === cardIndex) {
+          return (
+            <Animated.View
+              key={item.id}
+              style={[
+                position.getLayout(),
+                { transform: [{ rotate: rotate }] },
+              ]}
+              {...panResponder.panHandlers}
+            >
+              <CardComponent item={item} cardText="Swipe Me" />
+            </Animated.View>
+          );
+        }
+        return (
+          <Animated.View key={item.id} style={styles.cardStyle}>
+            <CardComponent item={item} cardText="Next" />
+          </Animated.View>
+        );
+      })
+      .reverse();
+  };
 
   return (
     <SafeAreaView>
       {renderNoMoreCards(cardIndex, data.length, setCardIndex)}
-      <FlatList
-        data={data}
-        extraData={cardIndex}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => {
-          if (index < cardIndex) return null;
-
-          return index === cardIndex ? (
-            <Animated.View
-              style={
-                index === cardIndex && [
-                  position.getLayout(),
-                  { transform: [{ rotate: rotate }] },
-                ]
-              }
-              {...panResponder.panHandlers}
-            >
-              <CardComponent item={item} cardText="Swippable" />
-            </Animated.View>
-          ) : (
-            <View>
-              <CardComponent item={item} cardText="Next" />
-            </View>
-          );
-        }}
-      />
+      <View>{renderCards()}</View>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  cardStyle: {
+    position: "absolute",
+    width: ScreenWidth,
+  },
+});
 
 export default Deck;
