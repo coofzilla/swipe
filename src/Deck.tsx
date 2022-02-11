@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import {
   View,
   Animated,
   PanResponder,
-  Dimensions,
   LayoutAnimation,
   UIManager,
   StyleSheet,
-  FlatList,
   SafeAreaView,
-  Text,
 } from "react-native";
 
 import CardComponent from "./components/CardComponent";
@@ -43,6 +40,13 @@ const Deck = ({
 }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
   const [cardIndex, setCardIndex] = useState(0);
+
+  useLayoutEffect(() => {
+    //Android bug fix
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();
+  }, [cardIndex]);
 
   const forceSwipe = (direction: Directions) => {
     const x = direction === Directions.right ? ScreenWidth : -ScreenWidth;
@@ -124,7 +128,7 @@ const Deck = ({
         return (
           <Animated.View
             key={item.id}
-            style={[styles.cardStyle, { top: 5 * (i - cardIndex) }]}
+            style={[styles.cardStyle, { top: 10 * (i - cardIndex) }]}
           >
             <CardComponent item={item} cardText="Next" />
           </Animated.View>
