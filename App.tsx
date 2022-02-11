@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import CardComponent from "./src/components/CardComponent";
 import { DATA } from "./src/Data";
 import Deck from "./src/Deck";
 

@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import CardComponent from "./components/CardComponent";
+import renderNoMoreCards from "../utils/renderNoMoreCards";
 
 const SCREEN_WIDTH = 50 + Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
@@ -103,7 +104,7 @@ const Deck = ({
 
   return (
     <SafeAreaView>
-      {cardIndex >= data.length ? console.log("FINISHED") : null}
+      {renderNoMoreCards(cardIndex, data.length, setCardIndex)}
       <FlatList
         data={data}
         extraData={cardIndex}

@@ -3,12 +3,11 @@ import { Text } from "react-native";
 import { Data } from "../Deck";
 
 interface CardComponentProps {
-  item?: Data;
+  item: Data;
   cardText: string;
 }
 
 const CardComponent = ({ item, cardText }: CardComponentProps) => {
-  if (!item) return null;
   const { text, uri } = item;
 
   return (
