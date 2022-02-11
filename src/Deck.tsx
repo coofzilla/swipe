@@ -9,6 +9,7 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  Text,
 } from "react-native";
 
 import CardComponent from "./components/CardComponent";
@@ -102,6 +103,7 @@ const Deck = ({
 
   return (
     <SafeAreaView>
+      {cardIndex >= data.length ? console.log("FINISHED") : null}
       <FlatList
         data={data}
         extraData={cardIndex}
