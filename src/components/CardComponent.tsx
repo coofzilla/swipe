@@ -11,7 +11,7 @@ const CardComponent = ({ item, cardText }: CardComponentProps) => {
   const { text, uri } = item;
 
   return (
-    <Card containerStyle={{ borderWidth: 3 }}>
+    <Card>
       <Card.Title>{text}</Card.Title>
       <Card.Image source={{ uri }} />
       <Text style={{ marginTop: 10, marginBottom: 10 }}>{cardText}</Text>
