@@ -86,6 +86,7 @@ const Deck = ({
         [
           //ignore native event
           null,
+          //dx, dy; accumulated distance of the gesture since the touch started
           {
             dx: position.x,
             dy: position.y,
