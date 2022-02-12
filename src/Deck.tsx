@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
 import {
   View,
   Animated,
@@ -11,7 +11,7 @@ import {
 
 import CardComponent from "./components/CardComponent";
 import renderNoMoreCards from "../utils/renderNoMoreCards";
-import { ScreenHeight, ScreenWidth } from "react-native-elements/dist/helpers";
+import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 const SWIPE_THRESHOLD = 0.25 * ScreenWidth;
 const SWIPE_OUT_DURATION = 250;
@@ -40,6 +40,10 @@ const Deck = ({
 }: DeckProps) => {
   const position = useRef(new Animated.ValueXY()).current;
   const [cardIndex, setCardIndex] = useState(0);
+
+  useEffect(() => {
+    setCardIndex(0);
+  }, [data]);
 
   useLayoutEffect(() => {
     //Android bug fix
