@@ -124,6 +124,7 @@ const Deck = ({
                 position.getLayout(),
                 { transform: [{ rotate: rotate }] },
               ]}
+              //object w/callbacks tying panresponder to the element
               {...panResponder.panHandlers}
             >
               <CardComponent item={item} cardText="Swipe Me" />
